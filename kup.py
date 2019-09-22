@@ -21,6 +21,23 @@ def choice(obj, min, max):
     return True,obj
 
 
+def se_num(name):
+    dir= 'settings/'+name
+    f= open(dir,'r')
+    cont= f.read()
+    f.close()
+    try:
+        int_v= int(cont)
+    except ValueError:
+        print("Invalid numberic value in file: ",dir)
+        pause()
+        quit()
+    float_v= float(cont)
+    if float_v == int_v:
+        return int_v
+    return float_v
+        
+
 def load(path):
     if isfile(path):
         f= open(path, 'r')
@@ -127,10 +144,10 @@ if not isfile(not_running_for_the_first_time_file):
     open(not_running_for_the_first_time_file,'w').close()
 
 
-
 access_denied= []
 terminated_processes= []
     
+delay_per_scan= se_num("delay per scan")
 def deal_with_procs():
     global thread_finished
     while thread_running:
@@ -157,6 +174,7 @@ def deal_with_procs():
                     
                 if info not in terminated_processes:
                     terminated_processes.append(info)
+        sleep(delay_per_scan)
     thread_finished= True
 
 while 1:
