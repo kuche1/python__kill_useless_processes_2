@@ -24,18 +24,19 @@ def choice(obj, min, max):
 def se_num(name):
     dir= 'settings/'+name
     f= open(dir,'r')
-    cont= f.read()
+    cont= f.read().split('\n')[0]
     f.close()
     try:
-        int_v= int(cont)
+        float_v= float(cont)
     except ValueError:
         print("Invalid numberic value in file: ",dir)
         pause()
         quit()
-    float_v= float(cont)
-    if float_v == int_v:
-        return int_v
-    return float_v
+    try:
+        int_v= int(cont)
+    except ValueError:
+        return float_v
+    return int_v
         
 
 def load(path):
